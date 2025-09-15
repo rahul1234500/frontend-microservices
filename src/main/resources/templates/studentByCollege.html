@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students by College</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Students by College</h1>
+        </header>
+        
+        <main>
+            <div class="nav-links">
+                <a th:href="@{/student/}" class="btn btn-secondary">← Back to Dashboard</a>
+            </div>
+
+            <!-- College Information (when college service is available) -->
+            <div class="college-info" th:if="${students != null and !students.empty and collegeServiceAvailable != false}">
+                <h3>College Information:</h3>
+                <p><strong>College Name:</strong> <span th:text="${students[0].college.collegeName}"></span></p>
+                <p><strong>Address:</strong> <span th:text="${students[0].college.address}"></span></p>
+                <p><strong>University:</strong> <span th:text="${students[0].college.university}"></span></p>
+                <p><strong>College ID:</strong> <span th:text="${collegeId}"></span></p>
+            </div>
+            
+            <!-- College Service Unavailable Notice -->
+            <div class="message warning" th:if="${collegeServiceAvailable == false}">
+                <h3>⚠️ College Service Unavailable</h3>
+                <p>College service is not running. Students are shown below, but college details are not available.</p>
+                <p><strong>College ID:</strong> <span th:text="${collegeId}"></span></p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Search Students by College</h3>
+                </div>
+                <div class="form-group">
+                    <label for="collegeId">College ID</label>
+                    <input type="text" id="collegeId" placeholder="Enter College ID" class="d-inline-block college-id-input">
+                    <button onclick="fetchStudents()" class="btn btn-primary">Search Students</button>
+                    <button onclick="fetchStudentsApi()" class="btn btn-info">Search via API</button>
+                </div>
+            </div>
+
+            <!-- Display students from server-side (with college service) -->
+            <div th:if="${students != null and !students.empty and collegeServiceAvailable != false}">
+                <h3>Students Found</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>College ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${students}">
+                        <td th:text="${item.student.id}"></td>
+                        <td th:text="${item.student.name}"></td>
+                        <td th:text="${item.student.address}"></td>
+                        <td th:text="${item.student.age}"></td>
+                        <td th:text="${item.student.collegeId}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Display students from server-side (without college service) -->
+            <div th:if="${students != null and !students.empty and collegeServiceAvailable == false}">
+                <h3>Students Found</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>College ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.id}"></td>
+                        <td th:text="${student.name}"></td>
+                        <td th:text="${student.address}"></td>
+                        <td th:text="${student.age}"></td>
+                        <td th:text="${student.collegeId}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- API search results table -->
+            <div id="apiResults" class="d-none">
+                <h3>API Search Results</h3>
+                <table id="studentTable">
+                    <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>College ID</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/script/script.js}"></script>
+</body>
+</html>

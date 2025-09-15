@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student & College Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student & College Dashboard</h1>
+        </header>
+        
+        <main>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/student/add}" class="btn btn-primary">Add Student</a></li>
+                    <li><a th:href="@{/student/college/add}" class="btn btn-success">Add College</a></li>
+                    <li><a th:href="@{/student/byCollege/1}" class="btn btn-info">Students by College (Sample ID=1)</a></li>
+                    <li><a th:href="@{/student/byCollegeOnly/1}" class="btn btn-secondary">Students by College (No College Service)</a></li>
+                    <li><a th:href="@{/student/all}" class="btn btn-warning">View All Students</a></li>
+                </ul>
+            </nav>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2 class="card-title">Welcome to Student Management System</h2>
+                </div>
+                <p>Manage students and colleges efficiently with our comprehensive dashboard. Use the navigation above to access different features.</p>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/script/script.js}"></script>
+</body>
+</html>

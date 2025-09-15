@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>All Students</h1>
+        </header>
+        
+        <main>
+            <div class="nav-links">
+                <a th:href="@{/student/}" class="btn btn-secondary">← Back to Dashboard</a>
+                <button onclick="refreshData()" class="btn btn-success">Refresh Data</button>
+            </div>
+
+            <div th:if="${students != null and !students.empty}">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Student Records</h2>
+                        <p>Total Students: <strong th:text="${#lists.size(students)}"></strong></p>
+                    </div>
+                </div>
+                
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>College ID</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.id}"></td>
+                        <td th:text="${student.name}"></td>
+                        <td th:text="${student.address}"></td>
+                        <td th:text="${student.age}"></td>
+                        <td th:text="${student.collegeId}"></td>
+                        <td>
+                            <button onclick="deleteStudent('${student.id}', '${student.name}')" class="btn btn-danger">Delete</button>
+                            <button onclick="viewStudent('${student.name}')" class="btn btn-info">View Details</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${students == null or students.empty}" class="no-data">
+                <h3>No students found</h3>
+                <p>Add some students to see them here.</p>
+                <a th:href="@{/student/add}" class="btn btn-primary">Add Student</a>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/script/script.js}"></script>
+</body>
+</html>
